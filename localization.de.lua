@@ -43,8 +43,11 @@ if ( GetLocale() == "deDE" ) then -- {{{
     DCR_STR_ANCHOR	    = 'Anker';
     DCR_STR_OPTIONS	    = 'Einstellungen';
     DCR_STR_CLOSE	    = 'Schlie\195\159en';
+    DCR_STR_SUBMIT	    = 'einreichen';
     DCR_STR_DCR_PRIO        = 'Decursive Priorit\195\164tenliste';
     DCR_STR_DCR_SKIP        = 'Decursive Ignorierliste';
+    DCR_STR_DCR_PROFILE     = 'Decursive Profilliste';
+    DCR_STR_DCR_PROFILE_INPUT = 'Geben Sie den Profilnamen ein'
     DCR_STR_QUICK_POP       = 'Schnellbest\195\188cken';
     DCR_STR_POP	    	    = 'Best\195\188ckungsliste';
     DCR_STR_GROUP	    = 'Gruppe ';
@@ -58,12 +61,14 @@ if ( GetLocale() == "deDE" ) then -- {{{
     DCR_DOWN	   	= 'RUNTER';
 
     DCR_PRIORITY_SHOW	= 'P';
-    DCR_POPULATE	= 'P';
-    DCR_SKIP_SHOW	= 'S';
-    DCR_ANCHOR_SHOW	= 'A';
-    DCR_OPTION_SHOW	= 'O';
-    DCR_CLEAR_PRIO	= 'C';
-    DCR_CLEAR_SKIP	= 'C';
+    DCR_POPULATE 	  = 'P';
+    DCR_SKIP_SHOW 	  = 'S';
+    DCR_PROFILE_SHOW  = 'F';
+    DCR_ANCHOR_SHOW	  = 'A';
+    DCR_OPTION_SHOW	  = 'O';
+    DCR_CLEAR_PRIO	  = 'C';
+    DCR_CLEAR_SKIP	  = 'C';
+    DCR_CLEAR_PROFILE = 'C';
 
 
     --end added in Rc4
@@ -106,17 +111,25 @@ if ( GetLocale() == "deDE" ) then -- {{{
     BINDING_NAME_DCRSKCLEAR = "Ignorierliste leeren";
     BINDING_NAME_DCRSKLIST  = "Ignorierliste ausgeben";
     BINDING_NAME_DCRSKSHOW  = "Zeige/Verstecke die Ignorierliste UI";
+    
+    BINDING_NAME_DCRPFADD    = "Neues Profil erstellen";
+    BINDING_NAME_DCRPFUPDATE = "Profil aktualisieren";
+    BINDING_NAME_DCRPFLIST   = "Profilliste ausgeben";
+    BINDING_NAME_DCRPFSHOW   = "Zeige/Verstecke die Profilliste UI";
 
     DCR_DISABLE_AUTOSELFCAST = "Die Decursive-Einstellung \"%s\" ist aktiv.\n\nDecursive kann, solange das der Fall ist, keine Reinigung vornehmen.\n\nSoll diese Einstellung deaktiviert werden?";
 
-    DCR_PRIORITY_LIST  = "Decursive Priorit\195\164tenliste";
-    DCR_SKIP_LIST_STR  = "Decursive Ignorierliste";
-    DCR_SKIP_OPT_STR   = "Decursive Einstellungen";
-    DCR_POPULATE_LIST  = "Schnellbest\195\188cken der Decursive Liste";
-    DCR_RREMOVE_ID     = "Entferne diesen Spieler";
-    DCR_HIDE_MAIN      = "Verstecke Decursive Fenster";
-    DCR_SHOW_MSG       = "Um das Decursive Fenster anzuzeigen, /dcrshow eingeben";
-    DCR_IS_HERE_MSG    = "Decursive wurde geladen, kontrolliere bitte die Einstellungen";
+    DCR_PRIORITY_LIST    = "Decursive Priorit\195\164tenliste";
+    DCR_SKIP_LIST_STR    = "Decursive Ignorierliste";
+    DCR_SKIP_OPT_STR     = "Decursive Einstellungen";
+    DCR_PROFILE_LIST_STR = "Decursive Profilliste";
+    DCR_POPULATE_LIST    = "Schnellbest\195\188cken der Decursive Liste";
+    DCR_RREMOVE_ID       = "Entferne diesen Spieler";
+    DCR_USE_PROFILE      = "Profil verwenden";
+    DCR_RREMOVE_PROFILE  = "Profil entfernen";
+    DCR_HIDE_MAIN        = "Verstecke Decursive Fenster";
+    DCR_SHOW_MSG         = "Um das Decursive Fenster anzuzeigen, /dcrshow eingeben";
+    DCR_IS_HERE_MSG      = "Decursive wurde geladen, kontrolliere bitte die Einstellungen";
 
     DCR_PRINT_CHATFRAME = "Nachrichten im Chat ausgeben";
     DCR_PRINT_CUSTOM    = "Nachrichten in Bildschirmmitte ausgeben";

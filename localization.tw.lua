@@ -48,8 +48,11 @@ if ( GetLocale() == "zhTW" ) then
     DCR_STR_ANCHOR	= '定位點';
     DCR_STR_OPTIONS	= '選項';
     DCR_STR_CLOSE	= '關閉';
+    DCR_STR_SUBMIT	= '提交';
     DCR_STR_DCR_PRIO	= 'Decursive 優先選單';
     DCR_STR_DCR_SKIP	= 'Decursive 忽略選單';
+    DCR_STR_DCR_PROFILE	= 'Decursive 个人资料清单';
+    DCR_STR_DCR_PROFILE_INPUT = '输入个人资料名称'
     DCR_STR_QUICK_POP	= '快速添加介面';
     DCR_STR_POP	= '快速添加清單';
     DCR_STR_GROUP	= '隊伍 ';
@@ -63,12 +66,14 @@ if ( GetLocale() == "zhTW" ) then
     DCR_DOWN	= '下';
 
     DCR_PRIORITY_SHOW	= 'P';
-    DCR_POPULATE	= 'P';
-    DCR_SKIP_SHOW	= 'S';
-    DCR_ANCHOR_SHOW	= 'A';
-    DCR_OPTION_SHOW	= 'O';
-    DCR_CLEAR_PRIO	= 'C';
-    DCR_CLEAR_SKIP	= 'C';
+    DCR_POPULATE	  = 'P';
+    DCR_SKIP_SHOW	  = 'S';
+    DCR_PROFILE_SHOW  = 'F';
+    DCR_ANCHOR_SHOW	  = 'A';
+    DCR_OPTION_SHOW	  = 'O';
+    DCR_CLEAR_PRIO	  = 'C';
+    DCR_CLEAR_SKIP	  = 'C';
+    DCR_CLEAR_PROFILE = 'C';
 
 
     --end added in Rc4
@@ -112,12 +117,20 @@ if ( GetLocale() == "zhTW" ) then
     BINDING_NAME_DCRSKCLEAR	= "清空忽略列表";
     BINDING_NAME_DCRSKLIST	= "顯示忽略列表至聊天視窗";
     BINDING_NAME_DCRSKSHOW	= "關閉忽略列表";
+    
+    BINDING_NAME_DCRPFADD	 = "创建新的个人资料";
+    BINDING_NAME_DCRPFUPDATE = "更新配置文件";
+    BINDING_NAME_DCRPFLIST	 = "打印配置文件列表";
+    BINDING_NAME_DCRPFSHOW	 = "显示或隐藏个人资料列表";
 
-    DCR_PRIORITY_LIST	= "Decursive 優先列表";
-    DCR_SKIP_LIST_STR	= "Decursive 忽略列表";
-    DCR_SKIP_OPT_STR	= "Decursive 選項";
-    DCR_POPULATE_LIST	= "Decursive 列表快速添加介面";
+    DCR_PRIORITY_LIST	 = "Decursive 優先列表";
+    DCR_SKIP_LIST_STR	 = "Decursive 忽略列表";
+    DCR_SKIP_OPT_STR	 = "Decursive 選項";
+    DCR_PROFILE_LIST_STR = "Decursive 个人资料清单";
+    DCR_POPULATE_LIST    = "Decursive 列表快速添加介面";
     DCR_RREMOVE_ID	= "移除此玩家";
+    DCR_USE_PROFILE     = "使用个人资料";
+    DCR_RREMOVE_PROFILE = "删除个人资料";
     DCR_HIDE_MAIN	= "隱藏 Decursive 視窗";
     DCR_SHOW_MSG	= "要顯示 Decursive 視窗，請輸入 /dcrshow。";
     DCR_IS_HERE_MSG	= "Decursive 已經啟動，請核對設定選項。";

@@ -42,9 +42,12 @@ if ( GetLocale() == "frFR" ) then
     DCR_STR_ANCHOR	    = 'Ancre';
     DCR_STR_OPTIONS	    = 'Options de Decursive';
     DCR_STR_CLOSE	    = 'Fermer';
+    DCR_STR_SUBMIT	    = 'soumettre';
     DCR_STR_ASSISTANT	    = 'Assistant';
     DCR_STR_DCR_PRIO	    = 'Liste de priorités';
     DCR_STR_DCR_SKIP	    = 'Liste des exceptions';
+    DCR_STR_DCR_PROFILE	    = 'Liste de profil';
+    DCR_STR_DCR_PROFILE_INPUT = 'Entrez le nom du profil'
     DCR_STR_QUICK_POP	    = 'Remplir rapidement';
     DCR_STR_POP		    = 'Remplir la liste';
     DCR_STR_GROUP	    = 'Groupe ';
@@ -60,10 +63,12 @@ if ( GetLocale() == "frFR" ) then
     DCR_PRIORITY_SHOW	    = 'P';
     DCR_POPULATE	    = 'R';
     DCR_SKIP_SHOW	    = 'S';
+    DCR_PROFILE_SHOW    = 'F';
     DCR_ANCHOR_SHOW	    = 'A';
     DCR_OPTION_SHOW	    = 'O';
     DCR_CLEAR_PRIO	    = 'E';
     DCR_CLEAR_SKIP	    = 'E';
+    DCR_CLEAR_PROFILE   = 'E';
 
 
     --end added in Rc4
@@ -105,6 +110,11 @@ if ( GetLocale() == "frFR" ) then
     BINDING_NAME_DCRSKCLEAR		= "Effacer la liste des exceptions";
     BINDING_NAME_DCRSKLIST		= "Afficher la liste des exceptions";
     BINDING_NAME_DCRSKSHOW		= "Afficher ou Cacher la liste des exceptions";
+    
+    BINDING_NAME_DCRPFADD		=  "Créer un nouveau profil";
+    BINDING_NAME_DCRPFUPDATE    = "Mettre à jour le profil";
+    BINDING_NAME_DCRPFLIST		= "Afficher la liste de profil";
+    BINDING_NAME_DCRPFSHOW		= "Afficher ou Cacher la liste de profil";
 
 
     DCR_DISABLE_AUTOSELFCAST	= "Decursive a trouvé que l'option \"%s\" est activée.\n\nDecursive ne pourra pas guérir les gens tant que cette option est active.\n\nVoulez-vous la désactiver ?";
@@ -112,8 +122,11 @@ if ( GetLocale() == "frFR" ) then
     DCR_PRIORITY_LIST		= "Liste des priorités";
     DCR_SKIP_LIST_STR		= "Liste des exceptions";
     DCR_SKIP_OPT_STR		= "Menu options";
+    DCR_PROFILE_LIST_STR	= "Liste de profil";
     DCR_POPULATE_LIST		= "Remplir rapidement la liste";
     DCR_RREMOVE_ID		= "Effacer ce joueur";
+    DCR_USE_PROFILE     = "Utiliser le profil";
+    DCR_RREMOVE_PROFILE = "Supprimer le profil";
     DCR_HIDE_MAIN		= "Cacher la fenêtre \"Decursive\"";
     DCR_SHOW_MSG		= "Pour afficher la fenêtre \"Decursive\", tapez /dcrshow.";
     DCR_IS_HERE_MSG		= "Decursive est initialisé, n'oubliez pas de contrôler les options disponibles";

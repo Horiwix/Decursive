@@ -184,7 +184,7 @@
 	</NormalText>
 	<Scripts>
 	    <OnLoad>
-		this.Priority = true;
+		this.entry_type = "priority";
 		this:RegisterForClicks('LeftButtonDown', 'RightButtonDown', 'MiddleButtonDown', 'Button4Down', 'Button5Down');
 	    </OnLoad>
 	    <OnShow>
@@ -208,10 +208,41 @@
     <Button name="DecursiveSkipListEntryTemplate" hidden="true" virtual="true" inherits="DecursivePriorityListEntryTemplate">
 	<Scripts>
 	    <OnLoad>
-		this.Priority = false;
+        this.entry_type = "skip";
 	    </OnLoad>
 	</Scripts>
     </Button>
+    
+    <Button name="DecursiveProfileListEntryTemplate" hidden="true" virtual="true" inherits="DecursivePriorityListEntryTemplate">
+	<Scripts>
+	    <OnLoad>
+        this.entry_type = "profile";
+	    </OnLoad>
+	</Scripts>
+    </Button>
+    
+    <CheckButton name="DecursiveProfileListEntryUseTemplate" hidden="true" virtual="true" inherits="UICheckButtonTemplate">
+    <Size>
+        <AbsDimension x="16" y="16" />
+    </Size>
+    <Scripts>
+        <OnLoad>
+        this:RegisterForClicks('LeftButtonDown', 'RightButtonDown', 'MiddleButtonDown', 'Button4Down', 'Button5Down');
+        </OnLoad>
+        <OnShow>
+        this.UpdateYourself = true;
+        </OnShow>
+        <OnClick>
+        Dcr_UseProfile(this:GetID());
+        </OnClick>
+        <OnEnter>
+        Dcr_DisplayTooltip(DCR_USE_PROFILE, this);
+        </OnEnter>
+        <OnLeave>
+        DcrDisplay_Tooltip:Hide();
+        </OnLeave>
+    </Scripts>
+    </CheckButton>
 
     <CheckButton name="DecursiveCurseTypeCheckBox" inherits="OptionsCheckButtonTemplate" virtual="true">
 	<Layers>
@@ -365,12 +396,39 @@
 		</Scripts>
 	    </Button>
 
-	    <Button name="$parentOptions" inherits="GameMenuButtonTemplate" text="O">
+        <Button name="$parentProfile" inherits="GameMenuButtonTemplate" text="F">
 		<Size>
 		    <AbsDimension x="20" y="20" />
 		</Size>
 		<Anchors>
 		    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parentSkip">
+			<Offset>
+			    <AbsDimension x="0" y="0" />
+			</Offset>
+		    </Anchor>
+		</Anchors>
+		<Scripts>
+		    <OnLoad>
+			this:SetText(DCR_PROFILE_SHOW);
+		    </OnLoad>
+		    <OnClick>
+			Dcr_ShowHideProfileListUI();
+		    </OnClick>
+		    <OnEnter>
+			Dcr_DisplayTooltip(DCR_PROFILE_LIST_STR, this);
+		    </OnEnter>
+		    <OnLeave>
+			DcrDisplay_Tooltip:Hide();
+		    </OnLeave>
+		</Scripts>
+	    </Button>
+
+	    <Button name="$parentOptions" inherits="GameMenuButtonTemplate" text="O">
+		<Size>
+		    <AbsDimension x="20" y="20" />
+		</Size>
+		<Anchors>
+		    <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$parentProfile">
 			<Offset>
 			    <AbsDimension x="0" y="0" />
 			</Offset>
@@ -591,6 +649,138 @@
 		</Anchors>
 	    </Frame>
 	</Frames>
+    </Frame>
+
+    <Frame name="DecursiveProfileNameInputFrame" frameStrata="LOW" toplevel="true" enableMouse="true" movable="true" hidden="true" parent="UIParent">
+	<Size>
+	    <AbsDimension x="140" y="90" />
+	</Size>
+    
+    <Anchors>
+	    <Anchor point="CENTER" />
+	</Anchors>
+    
+    <TitleRegion setAllPoints="true"/>
+    
+    <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+	    <EdgeSize>
+		<AbsValue val="16"/>
+	    </EdgeSize>
+	    <TileSize>
+		<AbsValue val="16"/>
+	    </TileSize>
+	    <BackgroundInsets>
+		<AbsInset left="5" right="5" top="5" bottom="5"/>
+	    </BackgroundInsets>
+	</Backdrop>
+    
+    <Layers>
+	    <Layer level="BACKGROUND">
+		<FontString name="$parentText" inherits="GameFontNormal" text="DCR_STR_DCR_PROFILE_INPUT">
+		    <Anchors>
+			<Anchor point="TOP" relativePoint="TOP" relativeTo="$parent">
+			    <Offset>
+				<AbsDimension x="0" y="-5" />
+			    </Offset>
+			</Anchor>
+		    </Anchors>
+		</FontString>
+	    </Layer>
+	</Layers>
+    
+    <Frames>
+    
+        <Button name="$parentClose" inherits="GameMenuButtonTemplate" text="X">
+		<Size>
+		    <AbsDimension x="20" y="20" />
+		</Size>
+		<Anchors>
+		    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="$parent">
+                <Offset>
+				<AbsDimension x="-5" y="5" />
+			    </Offset>
+            </Anchor>
+		</Anchors>
+		<Scripts>
+		    <OnClick>
+			this:GetParent():Hide();
+		    </OnClick>
+		    <OnEnter>
+			Dcr_DisplayTooltip(DCR_STR_CLOSE, this);
+		    </OnEnter>
+		    <OnLeave>
+			DcrDisplay_Tooltip:Hide();
+		    </OnLeave>
+		</Scripts>
+	    </Button>
+
+        <EditBox name="$parentInput">
+        <Size x="100" y="32"/>
+        <Anchors>
+		    <Anchor point="TOP" relativePoint="TOP" relativeTo="$parent">
+			    <Offset>
+				<AbsDimension x="0" y="-28" />
+			    </Offset>
+			</Anchor>
+		</Anchors>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\ChatFrame\UI-ChatInputBorder-Left">
+                    <Size x="75" y="32" />
+                    <Anchors>
+                        <Anchor point="LEFT">
+                            <Offset x="-10" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0" right="0.2" top="0" bottom="1.0"/>
+                </Texture>
+                <Texture file="Interface\ChatFrame\UI-ChatInputBorder-Right">
+                    <Size x="75" y="32" />
+                    <Anchors>
+                        <Anchor point="RIGHT">
+                            <Offset x="10" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords left="0.7" right="1.0" top="0" bottom="1.0"/>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Scripts>
+            <OnLoad>
+            this:SetMaxLetters(25);
+            </OnLoad>
+            <OnEnterPressed>
+            Dcr_AddTargetToProfileListComplete();
+            </OnEnterPressed>
+            <OnEscapePressed>
+            this:GetParent():Hide();
+            </OnEscapePressed>
+        </Scripts>
+        <FontString inherits="ChatFontNormal" />
+        </EditBox>
+        
+        <Button name="$parentSubmit" inherits="GameMenuButtonTemplate" text="Submit">
+		<Size>
+		    <AbsDimension x="100" y="20" />
+		</Size>
+		<Anchors>
+		    <Anchor point="TOPRIGHT" relativePoint="TOPLEFT" relativeTo="$parentClose">
+			<Offset>
+			    <AbsDimension x="-5" y="0" />
+			</Offset>
+		    </Anchor>
+		</Anchors>
+		<Scripts>
+		    <OnClick>
+			Dcr_AddTargetToProfileListComplete();
+		    </OnClick>
+		    <OnLoad>
+			this:SetText(DCR_STR_SUBMIT);
+		    </OnLoad>
+		</Scripts>
+	    </Button>
+
+    </Frames>
     </Frame>
 
     <Frame name="DecursivePriorityListFrame" frameStrata="LOW" toplevel="true" enableMouse="true" movable="true" hidden="true" parent="UIParent">
@@ -1091,6 +1281,283 @@
 		</Anchors>
 	    </Button>
 	    <Button name="$parentIndex10" id="10" inherits="DecursiveSkipListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex09"/>
+		</Anchors>
+	    </Button>
+
+	</Frames>
+    </Frame>
+    
+    <Frame name="DecursiveProfileListFrame" frameStrata="LOW" toplevel="true" enableMouse="true" movable="true" hidden="true" parent="UIParent">
+	<Size>
+	    <AbsDimension x="150" y="230" />
+	</Size>
+
+	<Anchors>
+	    <Anchor point="CENTER" />
+	</Anchors>
+
+	<TitleRegion setAllPoints="true"/>
+
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+	    <EdgeSize>
+		<AbsValue val="16"/>
+	    </EdgeSize>
+	    <TileSize>
+		<AbsValue val="16"/>
+	    </TileSize>
+	    <BackgroundInsets>
+		<AbsInset left="5" right="5" top="5" bottom="5"/>
+	    </BackgroundInsets>
+	</Backdrop>
+
+	<Scripts>
+	    <OnEnter>
+		Dcr_DisplayTooltip(DCR_PROFILE_LIST_STR, this);
+	    </OnEnter>
+	    <OnLeave>
+		DcrDisplay_Tooltip:Hide();
+	    </OnLeave>
+	    <OnLoad>
+		this.Offset = 0;
+	    </OnLoad>
+	    <OnShow>
+		this.UpdateYourself = true;
+	    </OnShow>
+	    <OnUpdate>
+		Dcr_ProfileListFrame_OnUpdate();
+	    </OnUpdate>
+	</Scripts>
+
+	<Layers>
+	    <Layer level="BACKGROUND">
+		<FontString name="$parentText" inherits="GameFontNormal" text="DCR_STR_DCR_PROFILE">
+		    <Anchors>
+			<Anchor point="TOP" relativePoint="TOP" relativeTo="$parent">
+			    <Offset>
+				<AbsDimension x="0" y="-5" />
+			    </Offset>
+			</Anchor>
+		    </Anchors>
+		</FontString>
+	    </Layer>
+	</Layers>
+
+	<Frames>
+
+	    <Button name="$parentAdd" inherits="GameMenuButtonTemplate" text="+">
+		<Size>
+		    <AbsDimension x="20" y="20" />
+		</Size>
+		<Anchors>
+		    <Anchor point="TOP" relativePoint="TOP" relativeTo="$parent">
+			<Offset>
+			    <AbsDimension x="-40" y="-20" />
+			</Offset>
+		    </Anchor>
+		</Anchors>
+		<Scripts>
+		    <OnClick>
+			Dcr_AddTargetToProfileList();
+		    </OnClick>
+		    <OnEnter>
+			Dcr_DisplayTooltip(BINDING_NAME_DCRPFADD, this);
+		    </OnEnter>
+		    <OnLeave>
+			DcrDisplay_Tooltip:Hide();
+		    </OnLeave>
+		</Scripts>
+	    </Button>
+        
+        <Button name="$parentUpdate" inherits="GameMenuButtonTemplate" text="U">
+		<Size>
+		    <AbsDimension x="20" y="20" />
+		</Size>
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentAdd" />
+		</Anchors>
+		<Scripts>
+		    <OnClick>
+			Dcr_UpdateProfileData(Dcr_Saved.CurrentProfile);
+		    </OnClick>
+		    <OnEnter>
+			Dcr_DisplayTooltip(BINDING_NAME_DCRPFUPDATE, this);
+		    </OnEnter>
+		    <OnLeave>
+			DcrDisplay_Tooltip:Hide();
+		    </OnLeave>
+		</Scripts>
+	    </Button>
+        
+        <Button name="$parentClose" inherits="GameMenuButtonTemplate" text="X">
+		<Size>
+		    <AbsDimension x="20" y="20" />
+		</Size>
+		<Anchors>
+		    <Anchor point="TOP" relativePoint="TOP" relativeTo="$parent">
+			<Offset>
+			    <AbsDimension x="40" y="-20" />
+			</Offset>
+		    </Anchor>
+		</Anchors>
+		<Scripts>
+		    <OnClick>
+			this:GetParent():Hide();
+		    </OnClick>
+		    <OnEnter>
+			Dcr_DisplayTooltip(BINDING_NAME_DCRPFSHOW, this);
+		    </OnEnter>
+		    <OnLeave>
+			DcrDisplay_Tooltip:Hide();
+		    </OnLeave>
+		</Scripts>
+	    </Button>
+
+	    <Button name="$parentUp" inherits="GameMenuButtonTemplate" text="UP">
+		<Size>
+		    <AbsDimension x="30" y="20" />
+		</Size>
+		<Anchors>
+		    <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parent">
+			<Offset>
+			    <AbsDimension x="5" y="5" />
+			</Offset>
+		    </Anchor>
+		</Anchors>
+		<Scripts>
+		    <OnLoad>
+			this:SetText(DCR_UP);
+		    </OnLoad>
+		    <OnClick>
+			this:GetParent().Offset = this:GetParent().Offset - 1;
+			this:GetParent().UpdateYourself = true;
+		    </OnClick>
+		</Scripts>
+	    </Button>
+
+	    <Button name="$parentDown" inherits="GameMenuButtonTemplate" text="DOWN">
+		<Size>
+		    <AbsDimension x="50" y="20" />
+		</Size>
+		<Anchors>
+		    <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeTo="$parent">
+			<Offset>
+			    <AbsDimension x="-5" y="5" />
+			</Offset>
+		    </Anchor>
+		</Anchors>
+		<Scripts>
+		    <OnLoad>
+			this:SetText(DCR_DOWN);
+		    </OnLoad>
+		    <OnClick>
+			this:GetParent().Offset = this:GetParent().Offset + 1;
+			this:GetParent().UpdateYourself = true;
+		    </OnClick>
+		</Scripts>
+	    </Button>
+
+        <CheckButton name="$parentUseIndex01" id="1" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeTo="$parent" >
+			<Offset>
+			    <AbsDimension x="5" y="-40" />
+			</Offset>
+		    </Anchor>
+		</Anchors>
+        </CheckButton>
+        <Button name="$parentIndex01" id="1" inherits="DecursiveProfileListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentUseIndex01" />
+		</Anchors>
+	    </Button>
+        <CheckButton name="$parentUseIndex02" id="2" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentUseIndex01" />
+        </Anchors>
+        </CheckButton>
+	    <Button name="$parentIndex02" id="2" inherits="DecursiveProfileListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex01"/>
+		</Anchors>
+	    </Button>
+        <CheckButton name="$parentUseIndex03" id="3" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentUseIndex02" />
+        </Anchors>
+        </CheckButton>
+	    <Button name="$parentIndex03" id="3" inherits="DecursiveProfileListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex02"/>
+		</Anchors>
+	    </Button>
+        <CheckButton name="$parentUseIndex04" id="4" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentUseIndex03" />
+        </Anchors>
+        </CheckButton>
+	    <Button name="$parentIndex04" id="4" inherits="DecursiveProfileListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex03"/>
+		</Anchors>
+	    </Button>
+        <CheckButton name="$parentUseIndex05" id="5" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentUseIndex04" />
+        </Anchors>
+        </CheckButton>
+	    <Button name="$parentIndex05" id="5" inherits="DecursiveProfileListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex04"/>
+		</Anchors>
+	    </Button>
+        <CheckButton name="$parentUseIndex06" id="6" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentUseIndex05" />
+        </Anchors>
+        </CheckButton>
+	    <Button name="$parentIndex06" id="6" inherits="DecursiveProfileListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex05"/>
+		</Anchors>
+	    </Button>
+        <CheckButton name="$parentUseIndex07" id="7" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentUseIndex06" />
+        </Anchors>
+        </CheckButton>
+	    <Button name="$parentIndex07" id="7" inherits="DecursiveProfileListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex06"/>
+		</Anchors>
+	    </Button>
+        <CheckButton name="$parentUseIndex08" id="8" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentUseIndex07" />
+        </Anchors>
+        </CheckButton>
+	    <Button name="$parentIndex08" id="8" inherits="DecursiveProfileListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex07"/>
+		</Anchors>
+	    </Button>
+        <CheckButton name="$parentUseIndex09" id="9" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentUseIndex08" />
+        </Anchors>
+        </CheckButton>
+	    <Button name="$parentIndex09" id="9" inherits="DecursiveProfileListEntryTemplate">
+		<Anchors>
+		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex08"/>
+		</Anchors>
+	    </Button>
+        <CheckButton name="$parentUseIndex10" id="10" inherits="DecursiveProfileListEntryUseTemplate">
+        <Anchors>
+            <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentUseIndex09" />
+        </Anchors>
+        </CheckButton>
+	    <Button name="$parentIndex10" id="10" inherits="DecursiveProfileListEntryTemplate">
 		<Anchors>
 		    <Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentIndex09"/>
 		</Anchors>

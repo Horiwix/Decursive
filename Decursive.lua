@@ -56,6 +56,15 @@ Dcr_Saved = {
 
     -- this is the people to skip
     SkipList = { };
+    
+    -- this is the profiles that are saved
+    ProfileList = { };
+    
+    -- this is where priority/skip list is saved for each profile
+    ProfileData = { };
+    
+    -- current profile that is being used
+    CurrentProfile = nil;
 
     -- this is wether or not to show the "live" list	
     Hide_LiveList = false;
@@ -385,6 +394,14 @@ function Dcr_ShowHideSkipListUI() --{{{
     end
 end --}}}
 
+function Dcr_ShowHideProfileListUI() --{{{
+    if (DecursiveProfileListFrame:IsVisible()) then
+	DecursiveProfileListFrame:Hide();
+    else
+	DecursiveProfileListFrame:Show();
+    end
+end --}}}
+
 function Dcr_ShowHideOptionsUI() --{{{
     if (DcrOptionsFrame:IsVisible()) then
 	DcrOptionsFrame:Hide();
@@ -659,6 +676,9 @@ function Dcr_ResetWindow() --{{{
 
     DecursiveSkipListFrame:ClearAllPoints();
     DecursiveSkipListFrame:SetPoint("CENTER", "UIParent");
+    
+    DecursiveProfileListFrame:ClearAllPoints();
+    DecursiveProfileListFrame:SetPoint("CENTER", "UIParent");
 
     DecursivePopulateListFrame:ClearAllPoints();
     DecursivePopulateListFrame:SetPoint("CENTER", "UIParent");
@@ -694,10 +714,12 @@ end --}}}
 function Dcr_PriorityListEntryTemplate_OnClick() --{{{
     local id = this:GetID();
     if (id) then
-	if (this.Priority) then
+	if (this.entry_type == "priority") then
 	    Dcr_RemoveIDFromPriorityList(id);
-	else
+	elseif (this.entry_type == "skip") then
 	    Dcr_RemoveIDFromSkipList(id);
+    elseif (this.entry_type == "profile") then
+	    Dcr_RemoveIDFromProfileList(id);
 	end
     end
     this.UpdateYourself = true;
@@ -713,10 +735,12 @@ function Dcr_PriorityListEntryTemplate_OnUpdate() --{{{
 	local id = this:GetID();
 	if (id) then
 	    local name
-	    if (this.Priority) then
+	    if (this.entry_type == "priority") then
 		name = Dcr_Saved.PriorityList[id];
-	    else
+	    elseif (this.entry_type == "skip") then
 		name = Dcr_Saved.SkipList[id];
+        elseif (this.entry_type == "profile") then
+		name = Dcr_Saved.ProfileList[id];
 	    end
 	    if (name) then
 		NameText:SetText(id.." - "..name);
@@ -767,14 +791,14 @@ function Dcr_PriorityListFrame_OnUpdate() --{{{
 	    end
 	    local btn = getglobal(baseName.."Index"..id);
 
-	    btn:SetID( i + this.Offset);
-	    btn.UpdateYourself = true;
+        btn:SetID( i + this.Offset);
+        btn.UpdateYourself = true;
 
-	    if (i <= size) then
-		btn:Show();
-	    else
-		btn:Hide();
-	    end
+        if (i <= size) then
+        btn:Show();
+        else
+        btn:Hide();
+        end
 	end
     end
 
@@ -826,6 +850,70 @@ function Dcr_SkipListFrame_OnUpdate() --{{{
 	    else
 		btn:Hide();
 	    end
+	end
+    end
+
+end --}}}
+
+function Dcr_ProfileListFrame_OnUpdate() --{{{
+    if (this.UpdateYourself) then
+	this.UpdateYourself = false;
+	Dcr_Groups_datas_are_invalid = true;
+	local baseName = this:GetName();
+	local up = getglobal(baseName.."Up");
+	local down = getglobal(baseName.."Down");
+
+
+	local size = table.getn(Dcr_Saved.ProfileList);
+
+	if (size < 11 ) then
+	    this.Offset = 0;
+	    up:Hide();
+	    down:Hide();
+	else
+	    if (this.Offset <= 0) then
+		this.Offset = 0;
+		up:Hide();
+		down:Show();
+	    elseif (this.Offset >= (size - 10)) then
+		this.Offset = (size - 10);
+		up:Show();
+		down:Hide();
+	    else
+		up:Show();
+		down:Show();
+	    end
+	end
+
+	local i;
+	for i = 1, 10 do
+	    local id = ""..i;
+	    if (i < 10) then
+		id = "0"..i;
+	    end
+	    local btn1 = getglobal(baseName.."UseIndex"..id);
+	    local btn2 = getglobal(baseName.."Index"..id);
+
+        for _, btn in pairs({btn1, btn2}) do
+            if btn then
+                btn:SetID( i + this.Offset);
+                btn.UpdateYourself = true;
+
+                if (i <= size) then
+                btn:Show();
+                else
+                btn:Hide();
+                end
+            end
+        end
+
+        if btn1 then
+            btn1:SetChecked(0);
+            if Dcr_Saved.ProfileList and Dcr_Saved.CurrentProfile and
+                Dcr_Saved.ProfileList[btn1:GetID()] == Dcr_Saved.CurrentProfile then
+                btn1:SetChecked(1);
+            end
+        end
 	end
     end
 
@@ -1168,6 +1256,15 @@ function Dcr_RemoveIDFromSkipList(id) --{{{
     DecursiveSkipListFrame.UpdateYourself = true;
 end --}}}
 
+function Dcr_RemoveIDFromProfileList(id) --{{{
+    local removed = table.remove( Dcr_Saved.ProfileList,id);
+    Dcr_Saved.ProfileData[removed] = nil
+    if Dcr_Saved.CurrentProfile == removed then
+        Dcr_Saved.CurrentProfile = nil
+    end
+    DecursiveProfileListFrame.UpdateYourself = true;
+end --}}}
+
 function Dcr_ClearSkipList() --{{{
     local i;
 
@@ -1217,6 +1314,70 @@ function Dcr_IsInSkipOrPriorList( name )  --{{{-- used internally
 
 
 end --}}}
+
+function Dcr_AddTargetToProfileList() --{{{
+    Dcr_debug( "Adding new profile");
+    DecursiveProfileNameInputFrame:Show();
+    DecursiveProfileNameInputFrameInput:SetText('');
+end --}}}
+
+function Dcr_AddTargetToProfileListComplete() --{{{
+    Dcr_debug( "Adding new profile COMPLETE");
+    local newProfileName = DecursiveProfileNameInputFrameInput:GetText()
+    DecursiveProfileNameInputFrame:Hide();
+    Dcr_AddToProfileList(newProfileName);
+end --}}}
+
+function Dcr_AddToProfileList(name) --{{{
+    if not Dcr_Saved.ProfileList then
+        Dcr_Saved.ProfileList = {};
+    end
+    for _, pname in Dcr_Saved.ProfileList do
+        if (name == pname or name == "") then
+            return;
+        end
+    end
+    table.insert(Dcr_Saved.ProfileList,name);
+    Dcr_UpdateProfileData(name);
+    DecursiveProfileListFrame.UpdateYourself = true;
+end--}}}
+
+function Dcr_UpdateProfileData(name) --{{{
+    if not Dcr_Saved.ProfileData then
+        Dcr_Saved.ProfileData = {}
+    end
+    --- will copy priority and skip tables by value
+    Dcr_Saved.ProfileData[name] = {}
+    Dcr_Saved.ProfileData[name]["PriorityList"] = copy_table(Dcr_Saved.PriorityList)
+    Dcr_Saved.ProfileData[name]["SkipList"] = copy_table(Dcr_Saved.SkipList)
+    DecursiveProfileListFrame.UpdateYourself = true;
+    Dcr_println("Updated profile: " .. name)
+end--}}}
+
+function Dcr_UseProfile(id) --{{{
+    Dcr_Saved.CurrentProfile = Dcr_Saved.ProfileList[id]
+    local profile_data = Dcr_Saved.ProfileData[Dcr_Saved.CurrentProfile]
+    if profile_data then
+        Dcr_Saved["PriorityList"] = copy_table(profile_data["PriorityList"])
+        Dcr_Saved["SkipList"] = copy_table(profile_data["SkipList"])
+    end
+    --Dcr_GetUnitArray();
+    DecursivePriorityListFrame.UpdateYourself = true;
+    DecursiveSkipListFrame.UpdateYourself = true;
+    DecursiveProfileListFrame.UpdateYourself = true;
+    Dcr_println("Using profile: " .. Dcr_Saved.CurrentProfile)
+end--}}}
+
+
+function copy_table(obj, seen)
+    if type(obj) ~= 'table' then return obj end
+    if seen and seen[obj] then return seen[obj] end
+    local s = seen or {}
+    local res = setmetatable({}, getmetatable(obj))
+    s[obj] = res
+    for k, v in pairs(obj) do res[copy_table(k, s)] = copy_table(v, s) end
+    return res
+end
 -- }}}
 -------------------------------------------------------------------------------
 

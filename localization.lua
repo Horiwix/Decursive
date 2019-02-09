@@ -81,8 +81,11 @@ DCR_STR_OTHER	    = 'Other';
 DCR_STR_ANCHOR	    = 'Anchor';
 DCR_STR_OPTIONS	    = 'Options';
 DCR_STR_CLOSE	    = 'Close';
+DCR_STR_SUBMIT	    = 'Submit';
 DCR_STR_DCR_PRIO    = 'Decursive Priority';
 DCR_STR_DCR_SKIP    = 'Decursive Skip';
+DCR_STR_DCR_PROFILE = 'Decursive Profile';
+DCR_STR_DCR_PROFILE_INPUT = 'Enter Profile name'
 DCR_STR_QUICK_POP   = 'Quickly Populate';
 DCR_STR_POP	    = 'Populate List';
 DCR_STR_GROUP	    = 'Group ';
@@ -98,10 +101,12 @@ DCR_DOWN	    = 'DOWN';
 DCR_PRIORITY_SHOW   = 'P';
 DCR_POPULATE	    = 'P';
 DCR_SKIP_SHOW	    = 'S';
+DCR_PROFILE_SHOW    = 'F';
 DCR_ANCHOR_SHOW	    = 'A';
 DCR_OPTION_SHOW	    = 'O';
 DCR_CLEAR_PRIO	    = 'C';
 DCR_CLEAR_SKIP	    = 'C';
+DCR_CLEAR_PROFILE   = 'C';
 
 
 --end added in Rc4
@@ -146,17 +151,25 @@ BINDING_NAME_DCRSKCLEAR = "Clear the skip list";
 BINDING_NAME_DCRSKLIST  = "Print the skip list";
 BINDING_NAME_DCRSKSHOW  = "Show or hide the skip list";
 
+BINDING_NAME_DCRPFADD    = "Create new profile";
+BINDING_NAME_DCRPFUPDATE = "Update profile";
+BINDING_NAME_DCRPFLIST   = "Print the profile list";
+BINDING_NAME_DCRPFSHOW   = "Show or hide the profile list";
+
 
 DCR_DISABLE_AUTOSELFCAST = "Decursive found that the option \"%s\" is enabled.\n\nDecursive won't be able to decurse while this option is active.\n\nDo you want to disable it?";
 
-DCR_PRIORITY_LIST  = "Decursive Priority List";
-DCR_SKIP_LIST_STR  = "Decursive Skip List";
-DCR_SKIP_OPT_STR   = "Decursive Options Menu";
-DCR_POPULATE_LIST  = "Quickly populate the Decursive list";
-DCR_RREMOVE_ID     = "Remove this player";
-DCR_HIDE_MAIN      = "Hide Decursive Window";
-DCR_SHOW_MSG	   = "To show Decursive's frame, type /dcrshow";
-DCR_IS_HERE_MSG	   = "Decursive is now initialized, remember to check the options";
+DCR_PRIORITY_LIST    = "Decursive Priority List";
+DCR_SKIP_LIST_STR    = "Decursive Skip List";
+DCR_SKIP_OPT_STR     = "Decursive Options Menu";
+DCR_PROFILE_LIST_STR = "Decursive Profile List";
+DCR_POPULATE_LIST    = "Quickly populate the Decursive list";
+DCR_RREMOVE_ID       = "Remove this player";
+DCR_USE_PROFILE      = "Use this profile";
+DCR_RREMOVE_PROFILE  = "Remove this profile";
+DCR_HIDE_MAIN        = "Hide Decursive Window";
+DCR_SHOW_MSG	     = "To show Decursive's frame, type /dcrshow";
+DCR_IS_HERE_MSG	     = "Decursive is now initialized, remember to check the options";
 
 DCR_PRINT_CHATFRAME = "Print messages in default chat";
 DCR_PRINT_CUSTOM    = "Print messages in the window";
