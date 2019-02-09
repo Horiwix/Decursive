@@ -1,3 +1,30 @@
+# Decursive Improved
+
+## Information
+
+Improved Decursive addon for 1.12 WoW. Improved version includes Profiles - new feature that lets you save/load priority and skip lists.
+
+![Decursive Improved GUI](https://i.imgur.com/07Vst00.gifv)
+
+## Installation
+
+Installation is the same as any addon (make sure you remove `-master` from the folder name):
+
+Download and put `Decursive` folder in your `...\Interface\AddOns`
+
+File structure should look like:
+
+```
+Interface/
+└── Addons/
+    ├── Decursive/
+    ├── ...
+    ...
+```
+
+
+# Original Description
+
 Decursive 1.9.8 (main download: http://www.2072productions.com/?to=decursive.php )
 
 
