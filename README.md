@@ -4,7 +4,7 @@
 
 Improved Decursive addon for 1.12 WoW. Improved version includes Profiles - new feature that lets you save/load priority and skip lists.
 
-![Decursive Improved GUI](https://i.imgur.com/07Vst00.gifv)
+![Decursive Improved GUI](https://i.imgur.com/07Vst00.gif)
 
 ## Installation
 
