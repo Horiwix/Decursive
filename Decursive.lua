@@ -864,6 +864,9 @@ function Dcr_ProfileListFrame_OnUpdate() --{{{
 	local down = getglobal(baseName.."Down");
 
 
+    if not Dcr_Saved.ProfileList then
+        Dcr_Saved.ProfileList = {}
+    end
 	local size = table.getn(Dcr_Saved.ProfileList);
 
 	if (size < 11 ) then
